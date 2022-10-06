@@ -24,7 +24,7 @@
 
     <modules>
         <module>main-server</module>
-        <module>statistic-server</module>
+        <module>stats-server</module>
     </modules>
 
     <dependencyManagement>

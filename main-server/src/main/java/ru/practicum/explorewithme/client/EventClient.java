@@ -12,7 +12,7 @@ public class EventClient extends BaseClient {
     private static final String API_PREFIX = "/requests";
 
     @Autowired
-    public EventClient(@Value("${statistic-server.url}") String serverUrl, RestTemplateBuilder builder) {
+    public EventClient(@Value("${stats-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
                         .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
