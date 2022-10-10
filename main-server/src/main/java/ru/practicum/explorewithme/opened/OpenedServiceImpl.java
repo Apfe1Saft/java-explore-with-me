@@ -35,7 +35,7 @@ public class OpenedServiceImpl implements OpenedService{
     @Override
     public Event getEvent(long id,HttpServletRequest request) {
         client.saveRequest(new EndpointHit(0L,"explore-with-me",request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now()));
-        return eventOpenedRepository.getById(Long.parseLong(String.valueOf(id)));
+        return eventOpenedRepository.findById(Long.parseLong(String.valueOf(id)));
     }
 
     @Override
@@ -62,12 +62,12 @@ public class OpenedServiceImpl implements OpenedService{
 
     @Override
     public Category getCategory(long id) {
-        return categoryOpenedRepository.getById(Long.parseLong(String.valueOf(id)));
+        return categoryOpenedRepository.findById(Long.parseLong(String.valueOf(id))).get();
     }
 
     @Override
     public Compilation getCompilation(long id) {
-        return compilationOpenedRepository.getById(Long.parseLong(String.valueOf(id)));
+        return compilationOpenedRepository.findById(Long.parseLong(String.valueOf(id))).get();
     }
 
     @Override

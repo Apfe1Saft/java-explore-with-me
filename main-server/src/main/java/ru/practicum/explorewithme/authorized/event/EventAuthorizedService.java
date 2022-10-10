@@ -3,6 +3,7 @@ package ru.practicum.explorewithme.authorized.event;
 import ru.practicum.explorewithme.model.event.EventFullDto;
 import ru.practicum.explorewithme.model.event.EventShortDto;
 import ru.practicum.explorewithme.model.event.NewEventDto;
+import ru.practicum.explorewithme.model.event.UpdateEventRequest;
 import ru.practicum.explorewithme.model.request.ParticipantRequestDto;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface EventAuthorizedService {
     List<EventShortDto> getEventsByUser(long userId, int from, int size);
 
-    EventFullDto patchEventsByUser(NewEventDto eventDto, long userId);
+    EventFullDto patchEventsByUser(UpdateEventRequest eventDto, long userId);
 
     EventFullDto postEventsByUser(NewEventDto eventDto, long userId);
 

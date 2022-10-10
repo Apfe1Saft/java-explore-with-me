@@ -33,7 +33,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     public List<UserDto> getUsers(long[] ids) {
         List<UserDto> userDtoList = new ArrayList<>();
         for(long i: ids){
-            userDtoList.add(UserMapper.toUserDto(repository.getById((long)i)));
+            userDtoList.add(UserMapper.toUserDto(repository.findById(i).get()));
         }
         return userDtoList;
     }
@@ -51,7 +51,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public UserDto postUser(User user) {
         repository.save(user);
-        return UserMapper.toUserDto(repository.getById((long) user.getId()));
+        return UserMapper.toUserDto(user);
     }
 
     @Override
@@ -59,6 +59,6 @@ public class UserAdminServiceImpl implements UserAdminService {
         if(!repository.existsById((long) id)){
             throw new NotFoundException("");
         }
-        repository.deleteById((long) id);
+        repository.deleteById(id);
     }
 }

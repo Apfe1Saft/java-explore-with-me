@@ -12,8 +12,7 @@ create table if not exists users (
     user_email VARCHAR(512) NOT NULL,
     user_name VARCHAR(255) NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (user_id),
-    CONSTRAINT UQ_USER_ID UNIQUE (user_id),
-    CONSTRAINT UQ_USER_EMAIL UNIQUE (user_email)
+    CONSTRAINT UQ_USER_ID UNIQUE (user_id)
 );
 
 create table if not exists categories (

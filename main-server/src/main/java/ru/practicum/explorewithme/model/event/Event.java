@@ -1,9 +1,7 @@
 package ru.practicum.explorewithme.model.event;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 import ru.practicum.explorewithme.model.category.Category;
 import ru.practicum.explorewithme.model.request.Request;
 import ru.practicum.explorewithme.model.user.User;
@@ -19,6 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "events")
+@SecondaryTable(name = "locations", pkJoinColumns = @PrimaryKeyJoinColumn(name = "event_id"))
+@Getter
+@Setter
 public class Event {
     @Min(0)
     @Id
@@ -30,6 +31,7 @@ public class Event {
     @Size(min = 20, max = 2000)
     private String annotation;
 
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", insertable = false, updatable = false, nullable = false)
     @ToString.Exclude
@@ -62,10 +64,6 @@ public class Event {
     private List<Request> requests;
 
     @Embedded
-    @AttributeOverrides(value = {
-            @AttributeOverride(name = "lat", column = @Column(name = "locations")),
-            @AttributeOverride(name = "lan", column = @Column(name = "locations"))
-    })
     private Location location;
 
     @Column(name = "paid")
@@ -91,11 +89,29 @@ public class Event {
     @Column(name = "views")
     private int views;
 
+    @Column(name = "category_id", nullable = false)
+    private long categoryId;
+
     public Event(long id, String annotation, Category category, int confirmedRequests,
                  LocalDateTime now, String description, LocalDateTime eventDate, long userId, boolean paid, String title, int views) {
         this.id = id;
         this.annotation = annotation;
         this.category = category;
+        this.confirmedRequests = confirmedRequests;
+        this.createdOn = now;
+        this.description = description;
+        this.eventDate = eventDate;
+        this.initiatorId = userId;
+        this.paid = paid;
+        this.title = title;
+        this.views = views;
+    }
+
+    public Event(long id, String annotation, long categoryId, int confirmedRequests,
+                 LocalDateTime now, String description, LocalDateTime eventDate, long userId, boolean paid, String title, int views) {
+        this.id = id;
+        this.annotation = annotation;
+        this.categoryId = categoryId;
         this.confirmedRequests = confirmedRequests;
         this.createdOn = now;
         this.description = description;

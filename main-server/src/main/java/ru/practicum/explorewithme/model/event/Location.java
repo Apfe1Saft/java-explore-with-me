@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Location {
+    @Column(name = "lat", table = "locations")
     private double lat;
+    @Column(name = "lon", table = "locations")
     private double lon;
 }

@@ -1,5 +1,7 @@
 package ru.practicum.explorewithme.model.event;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,13 +24,14 @@ public class NewEventDto {
     @Length(min = 20, max = 7000)
     private String description;
 
-    private Category category;
+    private Long category;
 
     private int confirmedRequests;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
 
-    private User initiator;
+    private Location location;
 
     private boolean paid;
 
@@ -36,4 +39,15 @@ public class NewEventDto {
     private String title;
 
     private int views;
+
+    public NewEventDto(long id, String annotation, String description, long categoryId, int confirmedRequests, LocalDateTime eventDate, boolean paid, String title, int views) {
+        this.id = id;
+        this.annotation = annotation;
+        this.description = description;
+        this.category = categoryId;
+        this.confirmedRequests = confirmedRequests;
+        this.eventDate =eventDate;
+        this.paid = paid;
+        this.views = views;
+    }
 }

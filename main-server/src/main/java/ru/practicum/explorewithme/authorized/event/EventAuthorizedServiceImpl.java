@@ -14,11 +14,11 @@ import ru.practicum.explorewithme.model.request.ParticipantRequestDto;
 import ru.practicum.explorewithme.model.request.Request;
 import ru.practicum.explorewithme.model.request.RequestMapper;
 import ru.practicum.explorewithme.model.request.Status;
+import ru.practicum.explorewithme.repository.CategoryRepository;
 import ru.practicum.explorewithme.repository.EventRepository;
 import ru.practicum.explorewithme.repository.RequestRepository;
 import ru.practicum.explorewithme.repository.UserRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +29,7 @@ public class EventAuthorizedServiceImpl implements EventAuthorizedService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final RequestRepository requestRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<EventShortDto> getEventsByUser(long userId, int from, int size) {
@@ -42,14 +43,16 @@ public class EventAuthorizedServiceImpl implements EventAuthorizedService {
     }
 
     @Override
-    public EventFullDto patchEventsByUser(NewEventDto eventDto, long userId) {
-        eventChecker(eventDto.getId(), userId);
-        Event event = new Event();
-        EventMapper.toEvent(eventDto, userId);
-        event.setCategory(eventDto.getCategory());
-        event.setInitiatorId(userId);
-        event.setCreatedOn(LocalDateTime.now());
-        event.setState(State.PENDING);
+    public EventFullDto patchEventsByUser(UpdateEventRequest eventDto, long userId) {
+        eventChecker(eventDto.getEventId(), userId);
+        Event event = eventRepository.findById(eventDto.getEventId()).get();
+        event.setAnnotation(eventDto.getAnnotation());
+        event.setCategoryId(event.getCategoryId());
+        event.setDescription(eventDto.getDescription());
+        event.setEventDate(eventDto.getEventDate());
+        event.setPaid(eventDto.isPaid());
+        event.setParticipantLimit(eventDto.getParticipantLimit());
+        event.setTitle(eventDto.getTitle());
         eventRepository.save(event);
         return EventMapper.toEventFullDto(eventRepository.findById(event.getId()));
     }
@@ -58,6 +61,10 @@ public class EventAuthorizedServiceImpl implements EventAuthorizedService {
     public EventFullDto postEventsByUser(NewEventDto eventDto, long userId) {
         eventChecker(0, userId);
         Event event = EventMapper.toEvent(eventDto, userId);
+        event.setInitiator(userRepository.findById(userId).get());
+        event.setCategory(categoryRepository.findById(event.getCategoryId()).get());
+        event.setState(State.PENDING);
+        event.setLocation(eventDto.getLocation());
         eventRepository.save(event);
         return EventMapper.toEventFullDto(event);
     }

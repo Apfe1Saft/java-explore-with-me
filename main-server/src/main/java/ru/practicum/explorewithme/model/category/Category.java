@@ -1,9 +1,6 @@
 package ru.practicum.explorewithme.model.category;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -14,6 +11,7 @@ import javax.validation.constraints.Size;
 @Table(name = "categories")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Setter
 public class Category {
     @Min(0)

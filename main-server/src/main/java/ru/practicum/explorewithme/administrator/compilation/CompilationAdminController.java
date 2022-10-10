@@ -9,8 +9,10 @@ import ru.practicum.explorewithme.model.category.Category;
 import ru.practicum.explorewithme.model.category.CategoryDto;
 import ru.practicum.explorewithme.model.compilation.Compilation;
 import ru.practicum.explorewithme.model.compilation.CompilationDto;
+import ru.practicum.explorewithme.model.compilation.CompilationMapper;
 import ru.practicum.explorewithme.model.compilation.NewCompilationDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,10 +21,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CompilationAdminController {
     private final CompilationAdminService service;
-    @PostMapping
-    public CompilationDto postCompilation(@RequestBody final NewCompilationDto newCompilationDto) {
+    @PostMapping//
+    public CompilationDto postCompilation(@RequestBody(required = false) final NewCompilationDto newCompilationDto) {
         System.out.println(newCompilationDto);
-        return service.postCompilation(newCompilationDto);
+        NewCompilationDto compilationDto = new NewCompilationDto();
+        if(newCompilationDto == null){
+            compilationDto.setEvents(new ArrayList<>());
+            compilationDto.setPinned(false);
+            compilationDto.setTitle("");
+        }
+        else {
+            compilationDto = newCompilationDto;
+        }
+        return service.postCompilation(compilationDto);
     }
     @DeleteMapping("/{compId}")
     public void deleteCompilation(@PathVariable("compId") long compId){

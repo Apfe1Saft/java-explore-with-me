@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.explorewithme.model.event.AdminUpdateEventDto;
 import ru.practicum.explorewithme.model.event.State;
 import ru.practicum.explorewithme.model.event.Event;
 
@@ -21,26 +22,28 @@ public class EventAdminController {
                                      @RequestParam(required = false) State[] states,
                                      @RequestParam(required = false) long[] categories,
                                      @RequestParam(required = false)
-                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime rangeStart,
+                                      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime rangeStart,
                                      @RequestParam(required = false)
-                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime rangeEnd,
+                                      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime rangeEnd,
                                      @RequestParam(defaultValue =  "0") int from,
                                      @RequestParam(defaultValue = "10") int size) {
         return service.findEvents(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
     @PutMapping("/{eventId}")
-    public Event putEvent(@PathVariable("userId") long userId,@RequestBody final Event event) {
-        return service.putEvent(userId,event);
+    public Event putEvent(@PathVariable("eventId") long eventId,@RequestBody AdminUpdateEventDto eventDto) {
+        return service.putEvent(eventId,eventDto);
     }
 
-    @PostMapping("/{eventId}/publish")
-    public Event publishEvent(@PathVariable("userId") long userId) {
-        return service.publishEvent(userId,true);
+    @PatchMapping("/{eventId}/publish")
+    public Event publishEvent(@PathVariable("eventId") long eventId) {
+        Event event = (service.publishEvent(eventId,true));
+        event = new Event(service.publishEvent(eventId,true));
+        return event;
     }
 
-    @PostMapping("/{eventId}/reject")
-    public Event rejectEvent(@PathVariable("userId") long userId) {
-        return  service.publishEvent(userId,false);
+    @PatchMapping("/{eventId}/reject")
+    public Event rejectEvent(@PathVariable("eventId") long eventId) {
+        return  service.publishEvent(eventId,false);
     }
 }

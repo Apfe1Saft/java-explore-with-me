@@ -18,19 +18,19 @@ public class CategoryAdminController {
 
     @PatchMapping
     public CategoryDto patchCategories(@Valid @RequestBody CategoryDto categoryDto) {
-        System.out.println("patchCategories");
+        System.out.println("PATCH/admin/categories");
         return service.patchCategories(categoryDto);
     }
 
     @PostMapping
     public CategoryDto postCategory(@RequestBody final CategoryDto categoryDto) {
-        System.out.println("postCategory");
+        System.out.println("POST/admin/categories");
         return service.postCategory(categoryDto);
     }
 
     @DeleteMapping("/{userId}")
     public void deleteCategories(@PathVariable("userId") long id) {
-        System.out.println("deleteCategories");
+        System.out.println("DELETE/admin/categories");
         service.deleteCategories(id);
     }
 }

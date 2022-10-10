@@ -9,8 +9,8 @@ public class EventMapper {
     static public NewEventDto toNewEventDto(Event event) {
         return new NewEventDto(
                 event.getId(), event.getAnnotation(), event.getDescription(),
-                event.getCategory(), event.getConfirmedRequests()
-                , event.getEventDate(), event.getInitiator()
+                event.getCategory().getId(), event.getConfirmedRequests()
+                , event.getEventDate()
                 , event.isPaid(), event.getTitle(), event.getViews()
         );
     }

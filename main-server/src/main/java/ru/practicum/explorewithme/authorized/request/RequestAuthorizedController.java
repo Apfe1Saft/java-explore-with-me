@@ -17,6 +17,7 @@ public class RequestAuthorizedController {
 
     @GetMapping("/{userId}/requests")
     public List<ParticipantRequestDto> getUserRequestsToEvents(@PathVariable("userId") long userId) {
+        System.out.println();
         return service.getUserRequestsToEvents(userId);
     }
 

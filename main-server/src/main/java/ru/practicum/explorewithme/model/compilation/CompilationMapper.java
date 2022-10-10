@@ -1,15 +1,17 @@
 package ru.practicum.explorewithme.model.compilation;
 
 import ru.practicum.explorewithme.model.event.Event;
+import ru.practicum.explorewithme.model.event.EventMapper;
+import ru.practicum.explorewithme.model.event.EventShortDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CompilationMapper {
     public static CompilationDto toCompilationDto(Compilation compilation){
-        List<Long> eventsIds = new ArrayList<>();
+        List<EventShortDto> eventsIds = new ArrayList<>();
         for(Event event : compilation.getEventCompilation()){
-            eventsIds.add(event.getId());
+            eventsIds.add(EventMapper.toEventShortDto(event));
         }
         return new CompilationDto(compilation.getId(),eventsIds,compilation.isPinned(),compilation.getTitle());
     }

@@ -30,6 +30,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
         Compilation compilation = new Compilation();
         compilation.setTitle(compilationDto.getTitle());
         compilation.setPinned(compilation.isPinned());// compilationDto.getEvents();
+        System.out.println(eventAdminRepository.findAll());
         compilation.setEventCompilation(
                 eventAdminRepository.findAll().stream()
                 .map(event -> {
@@ -50,7 +51,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
 
     @Override
     public void deleteEventFromCompilation(long compId, long eventId) {
-        Compilation compilation = repository.getById((long)compId);
+        Compilation compilation = repository.findById(compId).get();
         List<Event> events = compilation.getEventCompilation();
         events.removeIf(event -> event.getId()==eventId);
         compilation.setEventCompilation(events);
@@ -59,7 +60,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
 
     @Override
     public void patchCompilation(long compId, long eventId) {
-        Compilation compilation = repository.getById((long)compId);
+        Compilation compilation = repository.findById(compId).get();
         List<Event> events = compilation.getEventCompilation();
         events.add(eventAdminRepository.findById(eventId));
         compilation.setEventCompilation(events);

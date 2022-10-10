@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import ru.practicum.explorewithme.administrator.exception.ForbiddenException;
+import ru.practicum.explorewithme.administrator.exception.NotFoundException;
+import ru.practicum.explorewithme.model.event.AdminUpdateEventDto;
 import ru.practicum.explorewithme.model.event.State;
 import ru.practicum.explorewithme.model.event.Event;
 import ru.practicum.explorewithme.repository.EventRepository;
@@ -73,8 +75,21 @@ public class EventAdminServiceImpl implements EventAdminService {
     }
 
     @Override
-    public Event putEvent(long id, Event event) {
+    public Event putEvent(long id, AdminUpdateEventDto eventDto) {
+        Event event;
+        if( repository.findById(id)==null) throw new NotFoundException("");
+        event = repository.findById(id);
         event.setId(id);
+        event.setAnnotation(eventDto.getAnnotation());
+        event.setCategoryId(eventDto.getCategory());
+        event.setDescription(eventDto.getDescription());
+        event.setEventDate(eventDto.getEventDate());
+        event.setLocation(eventDto.getLocation());
+        event.setPaid(eventDto.isPaid());
+        event.setParticipantLimit(eventDto.getParticipantLimit());
+        event.setRequestModeration(eventDto.isRequestModeration());
+        event.setTitle(eventDto.getTitle());
+
         repository.save(event);
         return event;
     }
@@ -89,6 +104,7 @@ public class EventAdminServiceImpl implements EventAdminService {
             } else {
                 throw new ForbiddenException("");
             }
+            System.out.println("--> :   "+event.getCategory());
             repository.save(event);
             return event;
         }

@@ -44,7 +44,7 @@ public class RequestAuthorizedServiceImpl implements RequestAuthorizedService {
     @Override
     public ParticipantRequestDto postUserRequestsToEvents(long userId, long eventId) {
         eventChecker(eventId, userId);
-        Event event = eventRepository.getById(( eventId));
+        Event event = eventRepository.findById(( eventId));
         if (event.getInitiatorId() == userId) {
             throw new ForbiddenException("");
         }
@@ -61,13 +61,13 @@ public class RequestAuthorizedServiceImpl implements RequestAuthorizedService {
             request = new Request(userId, eventId, LocalDateTime.now(),Status.Confirmed);
         }
         requestRepository.save(request);
-        return RequestMapper.toParticipantRequestDto(requestRepository.findById((long)request.getId()).get());
+        return RequestMapper.toParticipantRequestDto(requestRepository.findById(request.getId()).get());
     }
 
     @Override
     public ParticipantRequestDto cancelUserRequestsToEvents(long userId, long requestId) {
         eventChecker(0, userId);
-        Request request = requestRepository.getById( requestId);
+        Request request = requestRepository.findById( requestId).get();
         request.setStatus(Status.Canceled);
         requestRepository.save(request);
         return RequestMapper.toParticipantRequestDto(request);

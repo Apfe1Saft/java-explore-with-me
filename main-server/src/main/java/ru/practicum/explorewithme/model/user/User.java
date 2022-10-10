@@ -23,7 +23,7 @@ public class User {
     private long id;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "initiator_id")
+    @JoinColumn(name = "initiator")
     @ToString.Exclude
     private Set<Event> events;
 
