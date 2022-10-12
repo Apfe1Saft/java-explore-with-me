@@ -19,6 +19,7 @@ public class UsersAdminController {
     public List<UserDto> getUsers( @RequestParam(name = "ids", defaultValue = "[]") long[] ids,
                                     @RequestParam(name = "from", defaultValue = "0") int from,
                                     @RequestParam(name = "size", defaultValue = "0") int size) {
+        log.debug("Admin: GET /admin/users request with ids: {}, from: {}, size: {}",ids,from,size);
         if (ids.length > 0) {
             return service.getUsers(ids);
         }
@@ -30,11 +31,13 @@ public class UsersAdminController {
 
     @PostMapping
     public UserDto postUser(@RequestBody final UserDto userDto) {
+        log.debug("Admin: POST /admin/users request ");
         return service.postUser(UserMapper.toUser(userDto));
     }
 
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable("userId") long id) {
+        log.debug("Admin: DELETE /admin/users/{userId} request with userId: "+id);
         service.deleteUser(id);
     }
 }

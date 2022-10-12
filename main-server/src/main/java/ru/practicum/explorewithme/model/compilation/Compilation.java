@@ -29,8 +29,7 @@ public class Compilation {
             joinColumns = @JoinColumn(name = "compilation_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     @ToString.Exclude
-    @JsonIgnore
-    private List<Event> eventCompilation;
+    private List<Event> events;
 
     @Column(name = "title")
     @Size(min = 5, max = 120)

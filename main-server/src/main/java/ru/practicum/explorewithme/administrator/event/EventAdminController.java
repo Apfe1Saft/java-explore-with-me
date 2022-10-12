@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.model.event.AdminUpdateEventDto;
-import ru.practicum.explorewithme.model.event.State;
-import ru.practicum.explorewithme.model.event.Event;
+import ru.practicum.explorewithme.model.event.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,23 +25,28 @@ public class EventAdminController {
                                       @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime rangeEnd,
                                      @RequestParam(defaultValue =  "0") int from,
                                      @RequestParam(defaultValue = "10") int size) {
+        log.debug("Admin: GET /admin/events request with users: {}, states: {}, categories: {}, rangeStart: {}," +
+                        " rangeEnd: {}, from: {}, size: {}"
+                ,users,states,categories,rangeStart,rangeEnd,from,size);
         return service.findEvents(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
     @PutMapping("/{eventId}")
     public Event putEvent(@PathVariable("eventId") long eventId,@RequestBody AdminUpdateEventDto eventDto) {
+        log.debug("Admin: PUT /admin/events/{eventId} request with eventId: "+eventId);
         return service.putEvent(eventId,eventDto);
     }
 
     @PatchMapping("/{eventId}/publish")
-    public Event publishEvent(@PathVariable("eventId") long eventId) {
+    public EventFullOutDto publishEvent(@PathVariable("eventId") long eventId) {
+        log.debug("Admin: PATCH /admin/events/{eventId}/publish request with eventId: "+eventId);
         Event event = (service.publishEvent(eventId,true));
-        event = new Event(service.publishEvent(eventId,true));
-        return event;
+        return EventMapper.toEventFullOutDto(event);
     }
 
     @PatchMapping("/{eventId}/reject")
-    public Event rejectEvent(@PathVariable("eventId") long eventId) {
-        return  service.publishEvent(eventId,false);
+    public EventFullOutDto rejectEvent(@PathVariable("eventId") long eventId) {
+        log.debug("Admin: PATCH /admin/events/{eventId}/reject request with eventId: "+eventId);
+        return EventMapper.toEventFullOutDto(service.publishEvent(eventId,false));
     }
 }

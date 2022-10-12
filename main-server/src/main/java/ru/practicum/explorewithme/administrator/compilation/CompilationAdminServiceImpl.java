@@ -3,7 +3,6 @@ package ru.practicum.explorewithme.administrator.compilation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.practicum.explorewithme.model.category.CategoryMapper;
 import ru.practicum.explorewithme.model.compilation.CompilationDto;
 import ru.practicum.explorewithme.model.compilation.CompilationMapper;
 import ru.practicum.explorewithme.repository.CompilationRepository;
@@ -12,10 +11,8 @@ import ru.practicum.explorewithme.model.compilation.Compilation;
 import ru.practicum.explorewithme.model.compilation.NewCompilationDto;
 import ru.practicum.explorewithme.model.event.Event;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,9 +26,8 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     public CompilationDto postCompilation(NewCompilationDto compilationDto) {
         Compilation compilation = new Compilation();
         compilation.setTitle(compilationDto.getTitle());
-        compilation.setPinned(compilation.isPinned());// compilationDto.getEvents();
-        System.out.println(eventAdminRepository.findAll());
-        compilation.setEventCompilation(
+        compilation.setPinned(compilationDto.isPinned());
+        compilation.setEvents(
                 eventAdminRepository.findAll().stream()
                 .map(event -> {
                     if(compilationDto.getEvents().contains(event.getId())) return event;
@@ -52,18 +48,18 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     @Override
     public void deleteEventFromCompilation(long compId, long eventId) {
         Compilation compilation = repository.findById(compId).get();
-        List<Event> events = compilation.getEventCompilation();
+        List<Event> events = compilation.getEvents();
         events.removeIf(event -> event.getId()==eventId);
-        compilation.setEventCompilation(events);
+        compilation.setEvents(events);
         repository.save(compilation);
     }
 
     @Override
     public void patchCompilation(long compId, long eventId) {
         Compilation compilation = repository.findById(compId).get();
-        List<Event> events = compilation.getEventCompilation();
+        List<Event> events = compilation.getEvents();
         events.add(eventAdminRepository.findById(eventId));
-        compilation.setEventCompilation(events);
+        compilation.setEvents(events);
         repository.save(compilation);
     }
 

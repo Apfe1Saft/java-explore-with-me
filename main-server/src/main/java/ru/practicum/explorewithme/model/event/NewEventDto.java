@@ -33,12 +33,15 @@ public class NewEventDto {
 
     private Location location;
 
+    private int participantLimit;
+
     private boolean paid;
 
     @Length(min = 3, max = 120)
     private String title;
 
     private int views;
+    private boolean requestModeration;
 
     public NewEventDto(long id, String annotation, String description, long categoryId, int confirmedRequests, LocalDateTime eventDate, boolean paid, String title, int views) {
         this.id = id;
@@ -49,5 +52,6 @@ public class NewEventDto {
         this.eventDate =eventDate;
         this.paid = paid;
         this.views = views;
+        this.title = title;
     }
 }

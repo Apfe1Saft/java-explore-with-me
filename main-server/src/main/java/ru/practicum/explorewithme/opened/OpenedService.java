@@ -4,6 +4,8 @@ import ru.practicum.explorewithme.model.Sort;
 import ru.practicum.explorewithme.model.category.Category;
 import ru.practicum.explorewithme.model.compilation.Compilation;
 import ru.practicum.explorewithme.model.event.Event;
+import ru.practicum.explorewithme.model.event.EventFullDto;
+import ru.practicum.explorewithme.model.event.EventShortDto;
 import ru.practicum.explorewithme.model.event.NewEventDto;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +19,10 @@ public interface OpenedService {
     List<Event> sortEvents(String text, long[] categories, boolean paid, boolean
             onlyAvailable, LocalDateTime rangeStart,LocalDateTime rangeEnd);
 
-    List<NewEventDto> getEventsDto(String text, long[] categories, Boolean paid,
-                                   LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                   boolean onlyAvailable, Sort sort, int from, int size ,
-                                   HttpServletRequest request);
+    List<EventShortDto> getEventsDto(String text, long[] categories, Boolean paid,
+                                     LocalDateTime rangeStart, LocalDateTime rangeEnd,
+                                     boolean onlyAvailable, Sort sort, int from, int size ,
+                                     HttpServletRequest request);
 
     List<Category> getCategories(int from, int size);
 

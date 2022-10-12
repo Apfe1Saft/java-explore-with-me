@@ -56,9 +56,9 @@ public class RequestAuthorizedServiceImpl implements RequestAuthorizedService {
         }
         Request request;
         if (event.isRequestModeration()) {
-            request = new Request(userId, eventId, LocalDateTime.now(),Status.Pending);
+            request = new Request(userId, eventId, LocalDateTime.now(),Status.PENDING);
         } else {
-            request = new Request(userId, eventId, LocalDateTime.now(),Status.Confirmed);
+            request = new Request(userId, eventId, LocalDateTime.now(),Status.CONFIRMED);
         }
         requestRepository.save(request);
         return RequestMapper.toParticipantRequestDto(requestRepository.findById(request.getId()).get());
@@ -68,7 +68,7 @@ public class RequestAuthorizedServiceImpl implements RequestAuthorizedService {
     public ParticipantRequestDto cancelUserRequestsToEvents(long userId, long requestId) {
         eventChecker(0, userId);
         Request request = requestRepository.findById( requestId).get();
-        request.setStatus(Status.Canceled);
+        request.setStatus(Status.CANCELED);
         requestRepository.save(request);
         return RequestMapper.toParticipantRequestDto(request);
     }

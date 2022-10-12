@@ -20,10 +20,11 @@ import java.util.stream.Collectors;
 @Getter
 public class UserAdminServiceImpl implements UserAdminService {
     private final UserRepository repository;
+
     @Override
     public List<UserDto> getUsers() {
         List<UserDto> userDtoList = new ArrayList<>();
-        for(User user: repository.findAll()){
+        for (User user : repository.findAll()) {
             userDtoList.add(UserMapper.toUserDto(user));
         }
         return userDtoList;
@@ -32,8 +33,9 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public List<UserDto> getUsers(long[] ids) {
         List<UserDto> userDtoList = new ArrayList<>();
-        for(long i: ids){
-            userDtoList.add(UserMapper.toUserDto(repository.findById(i).get()));
+        for (long i : ids) {
+            if (repository.findById(i).isPresent())
+                userDtoList.add(UserMapper.toUserDto(repository.findById(i).get()));
         }
         return userDtoList;
     }
@@ -41,8 +43,8 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public List<UserDto> getUsers(int from, int size) {
         List<UserDto> userDtoList = new ArrayList<>();
-        for(User user:repository.findAll(PageRequest.of(from, size, Sort.by("id").descending())).
-                stream().collect(Collectors.toList())){
+        for (User user : repository.findAll(PageRequest.of(from, size, Sort.by("id").descending())).
+                stream().collect(Collectors.toList())) {
             userDtoList.add(UserMapper.toUserDto(user));
         }
         return userDtoList;
@@ -56,7 +58,7 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     @Override
     public void deleteUser(long id) {
-        if(!repository.existsById((long) id)){
+        if (!repository.existsById((long) id)) {
             throw new NotFoundException("");
         }
         repository.deleteById(id);

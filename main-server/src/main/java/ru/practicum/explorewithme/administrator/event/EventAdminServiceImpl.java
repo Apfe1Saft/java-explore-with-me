@@ -12,6 +12,7 @@ import ru.practicum.explorewithme.administrator.exception.NotFoundException;
 import ru.practicum.explorewithme.model.event.AdminUpdateEventDto;
 import ru.practicum.explorewithme.model.event.State;
 import ru.practicum.explorewithme.model.event.Event;
+import ru.practicum.explorewithme.repository.CategoryRepository;
 import ru.practicum.explorewithme.repository.EventRepository;
 
 
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @Getter
 public class EventAdminServiceImpl implements EventAdminService {
     private final EventRepository repository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<Event> findEvents(long[] users, State[] states, long[] categories, LocalDateTime rangeStart,
@@ -82,6 +84,7 @@ public class EventAdminServiceImpl implements EventAdminService {
         event.setId(id);
         event.setAnnotation(eventDto.getAnnotation());
         event.setCategoryId(eventDto.getCategory());
+        event.setCategory(categoryRepository.getById(event.getCategoryId()));
         event.setDescription(eventDto.getDescription());
         event.setEventDate(eventDto.getEventDate());
         event.setLocation(eventDto.getLocation());
@@ -89,7 +92,6 @@ public class EventAdminServiceImpl implements EventAdminService {
         event.setParticipantLimit(eventDto.getParticipantLimit());
         event.setRequestModeration(eventDto.isRequestModeration());
         event.setTitle(eventDto.getTitle());
-
         repository.save(event);
         return event;
     }
@@ -102,9 +104,8 @@ public class EventAdminServiceImpl implements EventAdminService {
                 event.setState(State.PUBLISHED);
                 event.setPublishedOn(LocalDateTime.now());
             } else {
-                throw new ForbiddenException("");
+                event.setState(State.CANCELED);
             }
-            System.out.println("--> :   "+event.getCategory());
             repository.save(event);
             return event;
         }

@@ -11,6 +11,7 @@ import ru.practicum.explorewithme.model.compilation.Compilation;
 import ru.practicum.explorewithme.model.compilation.CompilationDto;
 import ru.practicum.explorewithme.model.compilation.CompilationMapper;
 import ru.practicum.explorewithme.model.compilation.NewCompilationDto;
+import ru.practicum.explorewithme.model.event.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class CompilationAdminController {
     private final CompilationAdminService service;
     @PostMapping//
     public CompilationDto postCompilation(@RequestBody(required = false) final NewCompilationDto newCompilationDto) {
-        System.out.println(newCompilationDto);
+        log.debug("Admin: POST /admin/compilation request");
         NewCompilationDto compilationDto = new NewCompilationDto();
         if(newCompilationDto == null){
             compilationDto.setEvents(new ArrayList<>());
@@ -37,24 +38,36 @@ public class CompilationAdminController {
     }
     @DeleteMapping("/{compId}")
     public void deleteCompilation(@PathVariable("compId") long compId){
+        log.debug("Admin: DELETE /admin/categories/{compId} request with compId: "+compId);
         service.deleteCompilation(compId);
     }
+
     @DeleteMapping("/{compId}/events/{eventId}")
-    public void deleteEventFromCompilation(@PathVariable("compId") long compId,@PathVariable("eventId") long eventId){
+    public Compilation deleteEventFromCompilation(@PathVariable("compId") long compId, @PathVariable("eventId") long eventId){
+        log.debug("Admin: DELETE /admin/categories request");
         service.deleteEventFromCompilation(compId,eventId);
+        return new Compilation();
     }
+
     @PatchMapping("/{compId}/events/{eventId}")
     public void patchCompilation(@PathVariable("compId") long compId,@PathVariable("eventId") long eventId){
+        log.debug("Admin: PATCH /admin/categories request/{compId}/events/{eventId} with compId: "
+                +compId+" and eventId: "+eventId);
         service.patchCompilation(compId,eventId);
     }
+
     @DeleteMapping("/{compId}/pin")
     public void deleteMainCompilation(@PathVariable("compId") long compId){
+        log.debug("Admin: DELETE /admin/categories/{compId}/pin request with compId: "+compId);
         service.deleteMainCompilation(compId);
     }
+
     @PatchMapping("/{compId}/pin")
     public void patchMainCompilation(@PathVariable("compId") long compId){
+        log.debug("Admin: PATCH /admin/categories/{compId}/pin request with compId: "+compId);
         service.patchMainCompilation(compId);
     }
+
     public void nullChecker(Object object){
         if(object == null) throw new ForbiddenException("Подборка должны содержать поля: id, title, pinned, events");
     }

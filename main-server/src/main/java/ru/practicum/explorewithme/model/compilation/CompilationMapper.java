@@ -10,7 +10,7 @@ import java.util.List;
 public class CompilationMapper {
     public static CompilationDto toCompilationDto(Compilation compilation){
         List<EventShortDto> eventsIds = new ArrayList<>();
-        for(Event event : compilation.getEventCompilation()){
+        for(Event event : compilation.getEvents()){
             eventsIds.add(EventMapper.toEventShortDto(event));
         }
         return new CompilationDto(compilation.getId(),eventsIds,compilation.isPinned(),compilation.getTitle());
@@ -18,7 +18,7 @@ public class CompilationMapper {
 
     public static NewCompilationDto toNewCompilationDto(Compilation compilation){
         List<Long> eventsIds = new ArrayList<>();
-        for(Event event : compilation.getEventCompilation()){
+        for(Event event : compilation.getEvents()){
             eventsIds.add(event.getId());
         }
         return new NewCompilationDto(eventsIds,compilation.isPinned(),compilation.getTitle());

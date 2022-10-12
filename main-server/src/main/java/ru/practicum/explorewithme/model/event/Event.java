@@ -1,7 +1,8 @@
 package ru.practicum.explorewithme.model.event;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import ru.practicum.explorewithme.model.category.Category;
 import ru.practicum.explorewithme.model.request.Request;
 import ru.practicum.explorewithme.model.user.User;
@@ -20,12 +21,17 @@ import java.util.List;
 @SecondaryTable(name = "locations", pkJoinColumns = @PrimaryKeyJoinColumn(name = "event_id"))
 @Getter
 @Setter
+@ToString
 public class Event {
     @Min(0)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
     private long id;
+
+    @Column(name = "title")
+    @Size(min = 3, max = 120)
+    private String title;
 
     @Column(name = "annotation")
     @Size(min = 20, max = 2000)
@@ -34,62 +40,65 @@ public class Event {
     //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", insertable = false, updatable = false, nullable = false)
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @ToString.Exclude
     private Category category;
 
+    @Column(name = "paid")
+    private boolean paid;
+
+    @Column(name = "event_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime eventDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiator", insertable = false, updatable = false, nullable = false)
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    //@JsonBackReference
+    @ToString.Exclude
+    private User initiator;
+
+    @Column(name = "views")
+    private int views;
+
     @Column(name = "confirmed_requests")
     private int confirmedRequests;
-
-    @Column(name = "created_on")
-    private LocalDateTime createdOn;
 
     @Column(name = "description")
     @Size(min = 20, max = 7000)
     private String description;
 
-    @Column(name = "event_date")
-    private LocalDateTime eventDate;
-
-    @Column(name = "initiator", nullable = false)
-    private long initiatorId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiator", insertable = false, updatable = false, nullable = false)
-    @ToString.Exclude
-    private User initiator;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
-    @ToString.Exclude
-    private List<Request> requests;
-
-    @Embedded
-    private Location location;
-
-    @Column(name = "paid")
-    private boolean paid;
-
     @Column(name = "participant_limit")
     private int participantLimit;
-
-    @Column(name = "published_on")
-    private LocalDateTime publishedOn;
-
-    @Column(name = "request_moderation")
-    private boolean requestModeration;
 
     @Column(name = "event_state")
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @Column(name = "title")
-    @Size(min = 3, max = 120)
-    private String title;
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
 
-    @Column(name = "views")
-    private int views;
+    @Column(name = "published_on")
+    private LocalDateTime publishedOn;
+
+    @Embedded
+    private Location location;
+
+    @Column(name = "request_moderation")
+    private boolean requestModeration = true;
+
+    @Column(name = "initiator", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    private long initiatorId;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    @ToString.Exclude
+    @JsonBackReference
+    private List<Request> requests;
 
     @Column(name = "category_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private long categoryId;
 
     public Event(long id, String annotation, Category category, int confirmedRequests,

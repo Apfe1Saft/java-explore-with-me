@@ -43,8 +43,8 @@ public class EventAuthorizedServiceImpl implements EventAuthorizedService {
     }
 
     @Override
-    public EventFullDto patchEventsByUser(UpdateEventRequest eventDto, long userId) {
-        eventChecker(eventDto.getEventId(), userId);
+    public Event patchEventsByUser(UpdateEventRequest eventDto, long userId) {
+        eventChecker(0, userId);
         Event event = eventRepository.findById(eventDto.getEventId()).get();
         event.setAnnotation(eventDto.getAnnotation());
         event.setCategoryId(event.getCategoryId());
@@ -54,34 +54,36 @@ public class EventAuthorizedServiceImpl implements EventAuthorizedService {
         event.setParticipantLimit(eventDto.getParticipantLimit());
         event.setTitle(eventDto.getTitle());
         eventRepository.save(event);
-        return EventMapper.toEventFullDto(eventRepository.findById(event.getId()));
+        return eventRepository.findById(event.getId());
     }
 
     @Override
-    public EventFullDto postEventsByUser(NewEventDto eventDto, long userId) {
+    public Event postEventsByUser(NewEventDto eventDto, long userId) {
         eventChecker(0, userId);
         Event event = EventMapper.toEvent(eventDto, userId);
         event.setInitiator(userRepository.findById(userId).get());
         event.setCategory(categoryRepository.findById(event.getCategoryId()).get());
         event.setState(State.PENDING);
         event.setLocation(eventDto.getLocation());
+        event.setParticipantLimit(eventDto.getParticipantLimit());
+        event.setRequestModeration(eventDto.isRequestModeration());
         eventRepository.save(event);
-        return EventMapper.toEventFullDto(event);
+        return event;
     }
 
     @Override
-    public EventFullDto getEventByUser(long userId, long eventId) {
+    public Event getEventByUser(long userId, long eventId) {
         eventChecker(eventId, userId);
-        return EventMapper.toEventFullDto(eventRepository.findById(eventId));
+        return eventRepository.findById(eventId);
     }
 
     @Override
-    public EventFullDto patchEventByUser(long userId, long eventId) {
+    public Event patchEventByUser(long userId, long eventId) {
         eventChecker(eventId, userId);
         Event event = eventRepository.findById(eventId);
         event.setState(State.CANCELED);
         eventRepository.save(event);
-        return EventMapper.toEventFullDto(event);
+        return event;
     }
 
     @Override
@@ -102,9 +104,10 @@ public class EventAuthorizedServiceImpl implements EventAuthorizedService {
                 break;
             }
         }
+
         if(request == null) throw new NotFoundException("");
-        if(!request.getStatus().equals(Status.Pending)) throw new ForbiddenException("");
-        request.setStatus(Status.Confirmed);
+        if(!request.getStatus().equals(Status.PENDING)) throw new ForbiddenException("");
+        request.setStatus(Status.CONFIRMED);
         requestRepository.save(request);
         return RequestMapper.toParticipantRequestDto(request);
     }
@@ -121,8 +124,8 @@ public class EventAuthorizedServiceImpl implements EventAuthorizedService {
             }
         }
         if(request == null) throw new NotFoundException("");
-        if(!request.getStatus().equals(Status.Pending)) throw new ForbiddenException("");
-        request.setStatus(Status.Rejected);
+        if(!request.getStatus().equals(Status.PENDING)) throw new ForbiddenException("");
+        request.setStatus(Status.REJECTED);
         requestRepository.save(request);
         return RequestMapper.toParticipantRequestDto(request);
     }

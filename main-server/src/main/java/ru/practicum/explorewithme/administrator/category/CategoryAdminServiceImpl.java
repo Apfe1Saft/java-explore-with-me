@@ -25,7 +25,6 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public CategoryDto postCategory(CategoryDto categoryDto) {
-        System.out.println("ALL "+repository.findAll());
         Category category = CategoryMapper.toCategory(categoryDto);
         repository.save(category);
         return CategoryMapper.toCategoryDto(category);
@@ -33,7 +32,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public void deleteCategories(long id) {
-        if(!repository.existsById( id)){
+        if(!repository.existsById(id)){
             throw new NotFoundException("");
         }
         repository.deleteById(id);

@@ -7,21 +7,32 @@ import lombok.NoArgsConstructor;
 import ru.practicum.explorewithme.model.category.CategoryDto;
 import ru.practicum.explorewithme.model.user.UserShortDto;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class EventShortDto {
+@AllArgsConstructor
+public class EventFullOutDto {
     private long id;
-    private String title;
     private String annotation;
-    private CategoryDto category;
-    private boolean paid;
+    private String description;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdOn;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
+
+    private Location location;
+    private CategoryDto category;
     private UserShortDto initiator;
-    private int views;
-    private long confirmedRequests;
+    private boolean paid;
+    private Integer participantLimit;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime publishedOn;
+
+    private boolean requestModeration;
+    private State state;
+    private String title;
 }
