@@ -30,15 +30,15 @@ public class EventAuthorizedController {
     }
 
     @PostMapping("/{userId}/events")
-    public EventOutDto  postEventsByUser(@RequestBody NewEventDto eventDto,@PathVariable("userId") long userId) {
+    public EventFullDto  postEventsByUser(@RequestBody NewEventDto eventDto,@PathVariable("userId") long userId) {
         log.debug("Opened: POST /users/{userId}/events request with userId: "+userId);
-        return EventMapper.toEventOutDto(service.postEventsByUser(eventDto,userId));
+        return EventMapper.toEventFullDto(service.postEventsByUser(eventDto,userId));
     }
 
     @GetMapping("/{userId}/events/{eventId}")
-    public EventOutDto  getEventByUser(@PathVariable("userId") long userId, @PathVariable("eventId") long eventId) {
+    public EventFullDto  getEventByUser(@PathVariable("userId") long userId, @PathVariable("eventId") long eventId) {
         log.debug("Opened: GET /users/{userId}/events/{eventId} request with userId: {}, eventId: {}",userId,eventId);
-        return EventMapper.toEventOutDto(service.getEventByUser(userId,eventId));
+        return EventMapper.toEventFullDto(service.getEventByUser(userId,eventId));
     }
 
     @PatchMapping("/{userId}/events/{eventId}")
