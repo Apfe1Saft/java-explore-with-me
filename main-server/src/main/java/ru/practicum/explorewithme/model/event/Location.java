@@ -17,4 +17,5 @@ public class Location {
     private double lat;
     @Column(name = "lon", table = "locations")
     private double lon;
+
 }
