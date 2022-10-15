@@ -25,19 +25,19 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, String[] uri, boolean unique) {
-        List<ViewStats> viewStats = unique? repository.findAllUnique(start, end) :repository.findAllNotUnique(start, end);
-        return uri==null ?
-                viewStats:
+        List<ViewStats> viewStats = unique ? repository.findAllUnique(start, end) : repository.findAllNotUnique(start, end);
+        return uri == null ?
+                viewStats :
                 viewStats.stream()
-                .map(view -> {
-                    for (String u : uri) {
-                        if (view.getUri().equals(u)) {
-                            return view;
-                        }
-                    }
-                    return null;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                        .map(view -> {
+                            for (String u : uri) {
+                                if (view.getUri().equals(u)) {
+                                    return view;
+                                }
+                            }
+                            return null;
+                        })
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
     }
 }

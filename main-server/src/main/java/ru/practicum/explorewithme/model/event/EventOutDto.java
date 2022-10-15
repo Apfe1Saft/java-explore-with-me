@@ -1,10 +1,10 @@
 package ru.practicum.explorewithme.model.event;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.Cache;
 import org.hibernate.validator.constraints.Length;
+import ru.practicum.explorewithme.model.Pattern;
 import ru.practicum.explorewithme.model.category.Category;
 
 import java.time.LocalDateTime;
@@ -19,7 +19,7 @@ public class EventOutDto {
     private String annotation;
     private Category category;
     private boolean paid;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Pattern.TIME_PATTERN)
     private LocalDateTime eventDate;
     private long initiator;
     @Length(min = 20, max = 7000)

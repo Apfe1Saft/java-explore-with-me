@@ -14,6 +14,7 @@ public class EventMapper {
                 , event.isPaid(), event.getTitle(), event.getViews()
         );
     }
+
     static public EventFullOutDto toEventFullOutDto(Event event) {
         return new EventFullOutDto(
                 event.getId(),
@@ -53,7 +54,8 @@ public class EventMapper {
                 event.getViews()
         );
     }
-    static public EventShortDto toEventShortDto(Event event){
+
+    static public EventShortDto toEventShortDto(Event event) {
         EventShortDto shortDto = new EventShortDto();
         shortDto.setId(event.getId());
         shortDto.setTitle(event.getTitle());
@@ -66,7 +68,8 @@ public class EventMapper {
         shortDto.setConfirmedRequests(event.getConfirmedRequests());
         return shortDto;
     }
-    static public Event toEvent(NewEventDto eventDto,long userId){
+
+    static public Event toEvent(NewEventDto eventDto, long userId) {
         return new Event(
                 eventDto.getId(),
                 eventDto.getAnnotation(),
@@ -81,7 +84,8 @@ public class EventMapper {
                 eventDto.getViews()
         );
     }
-    static public UpdateEventRequest toUpdateEventRequest(Event event){
+
+    static public UpdateEventRequest toUpdateEventRequest(Event event) {
         UpdateEventRequest updateEventRequest = new UpdateEventRequest();
         updateEventRequest.setAnnotation(event.getAnnotation());
         updateEventRequest.setCategory(event.getCategoryId());
@@ -93,7 +97,8 @@ public class EventMapper {
         updateEventRequest.setTitle(event.getTitle());
         return updateEventRequest;
     }
-    static public EventOutDto toEventOutDto(Event event){
+
+    static public EventOutDto toEventOutDto(Event event) {
         EventOutDto update = new EventOutDto();
         update.setAnnotation(event.getAnnotation());
         update.setCategory(event.getCategory());

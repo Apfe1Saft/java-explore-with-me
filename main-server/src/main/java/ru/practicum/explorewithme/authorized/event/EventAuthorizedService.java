@@ -1,6 +1,9 @@
 package ru.practicum.explorewithme.authorized.event;
 
-import ru.practicum.explorewithme.model.event.*;
+import ru.practicum.explorewithme.model.event.Event;
+import ru.practicum.explorewithme.model.event.EventShortDto;
+import ru.practicum.explorewithme.model.event.NewEventDto;
+import ru.practicum.explorewithme.model.event.UpdateEventRequest;
 import ru.practicum.explorewithme.model.request.ParticipantRequestDto;
 
 import java.util.List;
@@ -18,7 +21,7 @@ public interface EventAuthorizedService {
 
     List<ParticipantRequestDto> getRequestsByUser(long userId, long eventId);
 
-    ParticipantRequestDto  confirmRequestsByUser(long userId, long eventId, long reqId);
+    ParticipantRequestDto confirmRequestsByUser(long userId, long eventId, long reqId);
 
-    ParticipantRequestDto  rejectRequestsByUser(long userId, long eventId, long reqId);
+    ParticipantRequestDto rejectRequestsByUser(long userId, long eventId, long reqId);
 }

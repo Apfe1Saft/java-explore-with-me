@@ -10,10 +10,10 @@ import javax.validation.constraints.Min;
 import java.time.LocalDate;
 
 @Entity
-@Data
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Table(name = "comments")
 public class Comment {
     @Min(0)

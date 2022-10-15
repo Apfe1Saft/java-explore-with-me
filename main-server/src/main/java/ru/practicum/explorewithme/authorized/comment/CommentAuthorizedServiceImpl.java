@@ -35,7 +35,7 @@ public class CommentAuthorizedServiceImpl implements CommentAuthorizedService {
     public CommentDto postCommentByUser(long commentId, long userId, PatchedComment patchedComment) {
         userChecker(userId);
         commentChecker(commentId);
-        userCommentChecker(userId,commentId);
+        userCommentChecker(userId, commentId);
         Comment comment = commentRepository.getById(commentId);
         comment.setText(patchedComment.getText());
         commentRepository.save(comment);
@@ -46,7 +46,7 @@ public class CommentAuthorizedServiceImpl implements CommentAuthorizedService {
     public void deleteCommentByUser(long commentId, long userId) {
         userChecker(userId);
         commentChecker(commentId);
-        userCommentChecker(userId,commentId);
+        userCommentChecker(userId, commentId);
         commentRepository.deleteById(commentId);
     }
 
@@ -60,12 +60,14 @@ public class CommentAuthorizedServiceImpl implements CommentAuthorizedService {
         if (!eventRepository.existsById(eventId))
             throw new NotFoundException("Event with id: " + eventId + " is not exist.");
     }
-    public void commentChecker(long commentId){
+
+    public void commentChecker(long commentId) {
         if (!commentRepository.existsById(commentId))
             throw new NotFoundException("Comment with id: " + commentId + " is not exist.");
     }
-    public void userCommentChecker(long userId, long commentId){
-        if(commentRepository.getById(commentId).getAuthor().getId()!=userId)
-            throw new ForbiddenException("Comment with id: "+commentId+" was not created by User with id: "+userId);
+
+    public void userCommentChecker(long userId, long commentId) {
+        if (commentRepository.getById(commentId).getAuthor().getId() != userId)
+            throw new ForbiddenException("Comment with id: " + commentId + " was not created by User with id: " + userId);
     }
 }

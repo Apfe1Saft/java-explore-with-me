@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.practicum.explorewithme.model.Pattern;
 import ru.practicum.explorewithme.model.category.CategoryDto;
 import ru.practicum.explorewithme.model.user.UserShortDto;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,7 +19,7 @@ public class EventShortDto {
     private String annotation;
     private CategoryDto category;
     private boolean paid;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Pattern.TIME_PATTERN)
     private LocalDateTime eventDate;
     private UserShortDto initiator;
     private int views;

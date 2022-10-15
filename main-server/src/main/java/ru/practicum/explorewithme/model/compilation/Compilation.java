@@ -1,10 +1,6 @@
 package ru.practicum.explorewithme.model.compilation;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import ru.practicum.explorewithme.model.event.Event;
 
 import javax.persistence.*;
@@ -12,7 +8,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "compilations")
 @AllArgsConstructor

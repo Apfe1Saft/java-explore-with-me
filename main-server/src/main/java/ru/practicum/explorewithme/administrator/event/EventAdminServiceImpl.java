@@ -10,11 +10,10 @@ import org.springframework.stereotype.Component;
 import ru.practicum.explorewithme.administrator.exception.ForbiddenException;
 import ru.practicum.explorewithme.administrator.exception.NotFoundException;
 import ru.practicum.explorewithme.model.event.AdminUpdateEventDto;
-import ru.practicum.explorewithme.model.event.State;
 import ru.practicum.explorewithme.model.event.Event;
+import ru.practicum.explorewithme.model.event.State;
 import ru.practicum.explorewithme.repository.CategoryRepository;
 import ru.practicum.explorewithme.repository.EventRepository;
-
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -31,7 +30,7 @@ public class EventAdminServiceImpl implements EventAdminService {
 
     @Override
     public List<Event> findEvents(long[] users, State[] states, long[] categories, LocalDateTime rangeStart,
-                                     LocalDateTime rangeEnd, int from, int size) {
+                                  LocalDateTime rangeEnd, int from, int size) {
         List<Event> events = Arrays.stream(users)
                 .mapToObj(repository::findById)
                 .filter(Objects::nonNull)
@@ -58,8 +57,7 @@ public class EventAdminServiceImpl implements EventAdminService {
                     } else {
                         if (rangeEnd != null && rangeStart == null) {
                             return dateTime.isBefore(rangeEnd) ? event : null;
-                        } else
-                            if (rangeStart != null && rangeEnd == null) {
+                        } else if (rangeStart != null && rangeEnd == null) {
                             return dateTime.isAfter(rangeStart) ? event : null;
                         } else {
                             return (dateTime.isAfter(rangeStart) &&
@@ -79,7 +77,7 @@ public class EventAdminServiceImpl implements EventAdminService {
     @Override
     public Event putEvent(long id, AdminUpdateEventDto eventDto) {
         Event event;
-        if( repository.findById(id)==null) throw new NotFoundException("");
+        if (repository.findById(id) == null) throw new NotFoundException("");
         event = repository.findById(id);
         event.setId(id);
         event.setAnnotation(eventDto.getAnnotation());
@@ -99,7 +97,7 @@ public class EventAdminServiceImpl implements EventAdminService {
     @Override
     public Event publishEvent(long id, boolean publish) {
         Event event = repository.findById(id);
-        if(event.getState().equals(State.PENDING)) {
+        if (event.getState().equals(State.PENDING)) {
             if (publish) {
                 event.setState(State.PUBLISHED);
                 event.setPublishedOn(LocalDateTime.now());

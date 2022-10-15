@@ -1,10 +1,10 @@
 package ru.practicum.explorewithme.model.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import ru.practicum.explorewithme.model.Pattern;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +16,7 @@ public class UpdateEventRequest {
     private Long category;
     @Length(min = 20, max = 7000)
     private String description;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Pattern.TIME_PATTERN)
     private LocalDateTime eventDate;
     private Long eventId;
     private boolean paid;

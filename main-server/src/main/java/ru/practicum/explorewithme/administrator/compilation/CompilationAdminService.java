@@ -1,6 +1,5 @@
 package ru.practicum.explorewithme.administrator.compilation;
 
-import ru.practicum.explorewithme.model.compilation.Compilation;
 import ru.practicum.explorewithme.model.compilation.CompilationDto;
 import ru.practicum.explorewithme.model.compilation.NewCompilationDto;
 

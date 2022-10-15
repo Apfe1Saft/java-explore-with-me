@@ -1,8 +1,10 @@
 package ru.practicum.explorewithme.model.event;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
+import ru.practicum.explorewithme.model.Pattern;
 import ru.practicum.explorewithme.model.category.Category;
 import ru.practicum.explorewithme.model.request.Request;
 import ru.practicum.explorewithme.model.user.User;
@@ -48,7 +50,7 @@ public class Event {
     private boolean paid;
 
     @Column(name = "event_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Pattern.TIME_PATTERN)
     private LocalDateTime eventDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,7 +73,7 @@ public class Event {
     @Column(name = "participant_limit")
     private int participantLimit;
 
-    @Column(name = "event_state")
+    @Column(name = "event_state", nullable = false)
     @Enumerated(EnumType.STRING)
     private State state;
 

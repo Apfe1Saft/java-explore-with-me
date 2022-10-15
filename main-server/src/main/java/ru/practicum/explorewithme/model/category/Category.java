@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
-@Data
 @Entity
 @Table(name = "categories")
 @AllArgsConstructor
@@ -15,6 +14,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@ToString
 public class Category {
     @Min(0)
     @Id

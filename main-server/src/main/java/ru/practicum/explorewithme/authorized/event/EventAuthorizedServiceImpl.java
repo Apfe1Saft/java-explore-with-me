@@ -98,15 +98,15 @@ public class EventAuthorizedServiceImpl implements EventAuthorizedService {
         eventChecker(eventId, userId);
         List<Request> requests = eventRepository.findById(eventId).getRequests();
         Request request = null;
-        for(Request req: requests){
-            if(req.getId() == reqId){
+        for (Request req : requests) {
+            if (req.getId() == reqId) {
                 request = req;
                 break;
             }
         }
 
-        if(request == null) throw new NotFoundException("");
-        if(!request.getStatus().equals(Status.PENDING)) throw new ForbiddenException("");
+        if (request == null) throw new NotFoundException("");
+        if (!request.getStatus().equals(Status.PENDING)) throw new ForbiddenException("");
         request.setStatus(Status.CONFIRMED);
         requestRepository.save(request);
         return RequestMapper.toParticipantRequestDto(request);
@@ -117,21 +117,22 @@ public class EventAuthorizedServiceImpl implements EventAuthorizedService {
         eventChecker(eventId, userId);
         List<Request> requests = eventRepository.findById(eventId).getRequests();
         Request request = null;
-        for(Request req: requests){
-            if(req.getId() == reqId){
+        for (Request req : requests) {
+            if (req.getId() == reqId) {
                 request = req;
                 break;
             }
         }
-        if(request == null) throw new NotFoundException("");
-        if(!request.getStatus().equals(Status.PENDING)) throw new ForbiddenException("");
+        if (request == null) throw new NotFoundException("");
+        if (!request.getStatus().equals(Status.PENDING)) throw new ForbiddenException("");
         request.setStatus(Status.REJECTED);
         requestRepository.save(request);
         return RequestMapper.toParticipantRequestDto(request);
     }
+
     public void eventChecker(long eventId, long userId) {
         if (eventId == 0) {
-            if (userRepository.findById( userId).isPresent()) {
+            if (userRepository.findById(userId).isPresent()) {
                 return;
             }
             throw new ForbiddenException("");

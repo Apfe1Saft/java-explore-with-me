@@ -1,13 +1,11 @@
 package ru.practicum.explorewithme.model.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import ru.practicum.explorewithme.model.category.Category;
-import ru.practicum.explorewithme.model.user.User;
+import ru.practicum.explorewithme.model.Pattern;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +26,7 @@ public class NewEventDto {
 
     private int confirmedRequests;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Pattern.TIME_PATTERN)
     private LocalDateTime eventDate;
 
     private Location location;
@@ -49,7 +47,7 @@ public class NewEventDto {
         this.description = description;
         this.category = categoryId;
         this.confirmedRequests = confirmedRequests;
-        this.eventDate =eventDate;
+        this.eventDate = eventDate;
         this.paid = paid;
         this.views = views;
         this.title = title;

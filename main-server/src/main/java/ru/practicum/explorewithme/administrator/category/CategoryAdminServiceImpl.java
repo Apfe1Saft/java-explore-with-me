@@ -9,14 +9,12 @@ import ru.practicum.explorewithme.model.category.CategoryDto;
 import ru.practicum.explorewithme.model.category.CategoryMapper;
 import ru.practicum.explorewithme.repository.CategoryRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 @Getter
 public class CategoryAdminServiceImpl implements CategoryAdminService {
     private final CategoryRepository repository;
+
     @Override
     public CategoryDto patchCategories(CategoryDto categoryDto) {
         repository.save(CategoryMapper.toCategory(categoryDto));
@@ -32,7 +30,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public void deleteCategories(long id) {
-        if(!repository.existsById(id)){
+        if (!repository.existsById(id)) {
             throw new NotFoundException("");
         }
         repository.deleteById(id);

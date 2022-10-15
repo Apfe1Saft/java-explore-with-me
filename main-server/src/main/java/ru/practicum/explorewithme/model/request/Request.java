@@ -1,17 +1,14 @@
 package ru.practicum.explorewithme.model.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import ru.practicum.explorewithme.model.event.Event;
-import ru.practicum.explorewithme.model.user.User;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "requests")
 @AllArgsConstructor
@@ -32,11 +29,11 @@ public class Request {
     @Column(name = "created")
     private LocalDateTime created;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Request(long requesterId,long eventId,LocalDateTime created,Status status){
+    public Request(long requesterId, long eventId, LocalDateTime created, Status status) {
         this.eventId = eventId;
         this.requesterId = requesterId;
         this.created = created;

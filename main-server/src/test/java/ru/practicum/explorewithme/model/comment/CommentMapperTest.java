@@ -8,8 +8,6 @@ import ru.practicum.explorewithme.model.user.User;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CommentMapperTest {
 
     @Test
@@ -30,6 +28,6 @@ class CommentMapperTest {
         Event event = new Event();
         event.setId(1);
         Comment comment = new Comment(2, "text", event, user, LocalDate.now());
-        Assertions.assertEquals(CommentMapper.toCommentDto(comment).getId(),2);
+        Assertions.assertEquals(CommentMapper.toCommentDto(comment).getId(), 2);
     }
 }

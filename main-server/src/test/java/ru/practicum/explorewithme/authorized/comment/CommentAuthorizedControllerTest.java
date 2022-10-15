@@ -68,13 +68,13 @@ class CommentAuthorizedControllerTest {
         commentDto.setText("This event is cool.");
 
         PatchedComment patchedComment = new PatchedComment();
-        when(service.postCommentByUser(anyLong(),anyLong(),any())).thenReturn(commentDto);
+        when(service.postCommentByUser(anyLong(), anyLong(), any())).thenReturn(commentDto);
 
         mockMvc.perform(post("/users/1/comments/1")
                 .content(mapper.writeValueAsString(patchedComment))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1L), Long.class));
-        verify(service, times(1)).postCommentByUser(anyLong(), anyLong(),any());
+        verify(service, times(1)).postCommentByUser(anyLong(), anyLong(), any());
     }
 }

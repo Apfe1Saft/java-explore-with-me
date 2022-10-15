@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CommentAdminController {
     private final CommentAdminService service;
+
     @DeleteMapping("/{commentId}")
-    public void deleteCommentByUser( @PathVariable("commentId") long commentId) {
-        log.debug("Opened: DELETE /admin/comments/{commentId} request with commentId: "+commentId);
+    public void deleteCommentByUser(@PathVariable("commentId") long commentId) {
+        log.debug("Opened: DELETE /admin/comments/{commentId} request with commentId: " + commentId);
         service.deleteCommentByAdmin(commentId);
     }
 }

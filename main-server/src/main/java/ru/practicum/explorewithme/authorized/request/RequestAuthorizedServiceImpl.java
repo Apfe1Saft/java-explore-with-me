@@ -44,7 +44,7 @@ public class RequestAuthorizedServiceImpl implements RequestAuthorizedService {
     @Override
     public ParticipantRequestDto postUserRequestsToEvents(long userId, long eventId) {
         eventChecker(eventId, userId);
-        Event event = eventRepository.findById(( eventId));
+        Event event = eventRepository.findById((eventId));
         if (event.getInitiatorId() == userId) {
             throw new ForbiddenException("");
         }
@@ -56,9 +56,9 @@ public class RequestAuthorizedServiceImpl implements RequestAuthorizedService {
         }
         Request request;
         if (event.isRequestModeration()) {
-            request = new Request(userId, eventId, LocalDateTime.now(),Status.PENDING);
+            request = new Request(userId, eventId, LocalDateTime.now(), Status.PENDING);
         } else {
-            request = new Request(userId, eventId, LocalDateTime.now(),Status.CONFIRMED);
+            request = new Request(userId, eventId, LocalDateTime.now(), Status.CONFIRMED);
         }
         requestRepository.save(request);
         return RequestMapper.toParticipantRequestDto(requestRepository.findById(request.getId()).get());
@@ -67,7 +67,7 @@ public class RequestAuthorizedServiceImpl implements RequestAuthorizedService {
     @Override
     public ParticipantRequestDto cancelUserRequestsToEvents(long userId, long requestId) {
         eventChecker(0, userId);
-        Request request = requestRepository.findById( requestId).get();
+        Request request = requestRepository.findById(requestId).get();
         request.setStatus(Status.CANCELED);
         requestRepository.save(request);
         return RequestMapper.toParticipantRequestDto(request);
@@ -75,6 +75,6 @@ public class RequestAuthorizedServiceImpl implements RequestAuthorizedService {
 
     public void eventChecker(long eventId, long userId) {
         if (!eventRepository.existsById(eventId) && eventId != 0) throw new NotFoundException("");
-        if (userRepository.findById( userId).isEmpty()) throw new NotFoundException("");
+        if (userRepository.findById(userId).isEmpty()) throw new NotFoundException("");
     }
 }

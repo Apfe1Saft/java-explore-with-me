@@ -8,19 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompilationMapper {
-    public static CompilationDto toCompilationDto(Compilation compilation){
+    public static CompilationDto toCompilationDto(Compilation compilation) {
         List<EventShortDto> eventsIds = new ArrayList<>();
-        for(Event event : compilation.getEvents()){
+        for (Event event : compilation.getEvents()) {
             eventsIds.add(EventMapper.toEventShortDto(event));
         }
-        return new CompilationDto(compilation.getId(),eventsIds,compilation.isPinned(),compilation.getTitle());
+        return new CompilationDto(compilation.getId(), eventsIds, compilation.isPinned(), compilation.getTitle());
     }
 
-    public static NewCompilationDto toNewCompilationDto(Compilation compilation){
+    public static NewCompilationDto toNewCompilationDto(Compilation compilation) {
         List<Long> eventsIds = new ArrayList<>();
-        for(Event event : compilation.getEvents()){
+        for (Event event : compilation.getEvents()) {
             eventsIds.add(event.getId());
         }
-        return new NewCompilationDto(eventsIds,compilation.isPinned(),compilation.getTitle());
+        return new NewCompilationDto(eventsIds, compilation.isPinned(), compilation.getTitle());
     }
 }

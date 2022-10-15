@@ -1,7 +1,7 @@
 package ru.practicum.explorewithme.model.request;
 
 public class RequestMapper {
-    public static ParticipantRequestDto toParticipantRequestDto(Request request){
+    public static ParticipantRequestDto toParticipantRequestDto(Request request) {
         return new ParticipantRequestDto(
                 request.getId(),
                 request.getEventId(),

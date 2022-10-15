@@ -29,8 +29,8 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleBadRequestException(final BadRequestException e) {
-        return new ApiError(new ArrayList<>(),e.getMessage(),"For the requested operation the conditions are not met.",
-                "FORBIDDEN",LocalDateTime.now());
+        return new ApiError(new ArrayList<>(), e.getMessage(), "For the requested operation the conditions are not met.",
+                "FORBIDDEN", LocalDateTime.now());
     }
 
     @ExceptionHandler
@@ -60,14 +60,14 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ApiError handleForbiddenException(final ForbiddenException e) {
-        return new ApiError(new ArrayList<>(),e.getMessage(),"For the requested operation the conditions are not met.",
-                "FORBIDDEN",LocalDateTime.now());
+        return new ApiError(new ArrayList<>(), e.getMessage(), "For the requested operation the conditions are not met.",
+                "FORBIDDEN", LocalDateTime.now());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ApiError handleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
-        return new ApiError(new ArrayList<>(),e.getMessage(),"For the requested operation the conditions are not met.",
-                "FORBIDDEN",LocalDateTime.now());
+        return new ApiError(new ArrayList<>(), e.getMessage(), "For the requested operation the conditions are not met.",
+                "FORBIDDEN", LocalDateTime.now());
     }
 }
