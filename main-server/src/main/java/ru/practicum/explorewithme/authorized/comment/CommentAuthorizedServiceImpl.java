@@ -22,7 +22,7 @@ public class CommentAuthorizedServiceImpl implements CommentAuthorizedService {
     private final CommentRepository commentRepository;
 
     @Override
-    public CommentDto patchCommentByUser(CommentDto commentDto, long userId) {
+    public CommentDto postCommentByUser(CommentDto commentDto, long userId) {
         userChecker(userId);
         eventChecker(commentDto.getEventId());
         Comment comment = CommentMapper.toComment(commentDto, eventRepository.getById(commentDto.getEventId()),
@@ -32,7 +32,7 @@ public class CommentAuthorizedServiceImpl implements CommentAuthorizedService {
     }
 
     @Override
-    public CommentDto postCommentByUser(long commentId, long userId, PatchedComment patchedComment) {
+    public CommentDto patchCommentByUser(long commentId, long userId, PatchedComment patchedComment) {
         userChecker(userId);
         commentChecker(commentId);
         userCommentChecker(userId,commentId);

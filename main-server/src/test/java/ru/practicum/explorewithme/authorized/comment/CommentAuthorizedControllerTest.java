@@ -43,24 +43,24 @@ class CommentAuthorizedControllerTest {
     }
 
     @Test
-    void patchComment() throws Exception {
+    void postComment() throws Exception {
         CommentDto commentDto = new CommentDto();
         commentDto.setAuthorName("Author");
         commentDto.setEventId(1);
         commentDto.setText("This event is cool.");
 
-        when(service.patchCommentByUser(any(), anyLong())).thenReturn(commentDto);
+        when(service.postCommentByUser(any(), anyLong())).thenReturn(commentDto);
 
-        mockMvc.perform(patch("/users/1/comments")
+        mockMvc.perform(post("/users/1/comments")
                 .content(mapper.writeValueAsString(commentDto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(0L), Long.class));
-        verify(service, times(1)).patchCommentByUser(any(), anyLong());
+        verify(service, times(1)).postCommentByUser(any(), anyLong());
     }
 
     @Test
-    void postComment() throws Exception {
+    void patchComment() throws Exception {
         CommentDto commentDto = new CommentDto();
         commentDto.setAuthorName("Author");
         commentDto.setEventId(1);
@@ -68,13 +68,13 @@ class CommentAuthorizedControllerTest {
         commentDto.setText("This event is cool.");
 
         PatchedComment patchedComment = new PatchedComment();
-        when(service.postCommentByUser(anyLong(),anyLong(),any())).thenReturn(commentDto);
+        when(service.patchCommentByUser(anyLong(),anyLong(),any())).thenReturn(commentDto);
 
-        mockMvc.perform(post("/users/1/comments/1")
+        mockMvc.perform(patch("/users/1/comments/1")
                 .content(mapper.writeValueAsString(patchedComment))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1L), Long.class));
-        verify(service, times(1)).postCommentByUser(anyLong(), anyLong(),any());
+        verify(service, times(1)).patchCommentByUser(anyLong(), anyLong(),any());
     }
 }

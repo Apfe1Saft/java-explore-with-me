@@ -12,18 +12,18 @@ import ru.practicum.explorewithme.model.comment.PatchedComment;
 @RequiredArgsConstructor
 public class CommentAuthorizedController {
     private final CommentAuthorizedService service;
-    // Редактирование комментария
-    @PatchMapping("/{userId}/comments")
-    public CommentDto patchComment(@RequestBody CommentDto commentDto, @PathVariable("userId") long userId) {
-        log.debug("Opened: PATCH /users/{userId}/comments request with userId: "+userId);
-        return service.patchCommentByUser(commentDto,userId);
+    // Создание комментария
+    @PostMapping("/{userId}/comments")
+    public CommentDto postComment(@RequestBody CommentDto commentDto, @PathVariable("userId") long userId) {
+        log.debug("Opened: POST /users/{userId}/comments request with userId: "+userId);
+        return service.postCommentByUser(commentDto,userId);
     }
 
-    // Создание комментария
-    @PostMapping("/{userId}/comments/{commentId}")
-    public CommentDto postComment(@PathVariable("userId") long userId,@PathVariable("commentId") long commentId,@RequestBody PatchedComment patchedComment) {
-        log.debug("Opened: POST /users/{userId}/comments/{commentId} request with userId: "+userId);
-        return service.postCommentByUser(commentId,userId,patchedComment);
+    // Редактирование комментария
+    @PatchMapping("/{userId}/comments/{eventId}")
+    public CommentDto patchComment(@PathVariable("userId") long userId,@PathVariable("eventId") long eventId,@RequestBody PatchedComment patchedComment) {
+        log.debug("Opened: PATCH /users/{userId}/comments/{commentId} request with userId: "+userId);
+        return service.patchCommentByUser(eventId,userId,patchedComment);
     }
 
     // Удаление комментария
