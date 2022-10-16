@@ -36,7 +36,7 @@ public class CommentAuthorizedServiceImpl implements CommentAuthorizedService {
         userChecker(userId);
         commentChecker(commentId);
         userCommentChecker(userId,commentId);
-        Comment comment = commentRepository.getById(commentId);
+        Comment comment = commentRepository.findById(commentId).get();
         comment.setText(patchedComment.getText());
         commentRepository.save(comment);
         return CommentMapper.toCommentDto(comment);
@@ -65,7 +65,7 @@ public class CommentAuthorizedServiceImpl implements CommentAuthorizedService {
             throw new NotFoundException("Comment with id: " + commentId + " is not exist.");
     }
     public void userCommentChecker(long userId, long commentId){
-        if(commentRepository.getById(commentId).getAuthor().getId()!=userId)
+        if(commentRepository.findById(commentId).get().getAuthor().getId()!=userId)
             throw new ForbiddenException("Comment with id: "+commentId+" was not created by User with id: "+userId);
     }
 }
